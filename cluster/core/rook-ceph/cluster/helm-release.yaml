@@ -18,6 +18,8 @@ spec:
   dependsOn:
     - name: rook-ceph
   values:
+    toolbox:
+      enabled: true
     monitoring:
       enabled: false
     ingress:

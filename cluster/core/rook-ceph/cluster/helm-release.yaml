@@ -20,16 +20,20 @@ spec:
   values:
     monitoring:
       enabled: false
-    # ingress:
-    #   dashboard:
-    #     annotations:
-    #       kubernetes.io/ingress.class: "nginx"
-    #     host:
-    #       name: "rook.${SECRET_DOMAIN}"
-    #       path: "/"
-    #     tls:
-    #       - hosts:
-    #           - "rook.${SECRET_DOMAIN}"
+    ingress:
+      dashboard:
+        annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
+          hajimari.io/enable: "true"
+          hajimari.io/icon: "weather-castle"
+          traefik.inress.kubernetes.io/router.entrypoints: "websecure"
+        host:
+          name: "rook.${SECRET_DOMAIN}"
+          path: "/"
+        tls:
+          - hosts:
+              - "rook.${SECRET_DOMAIN}"
+            secretName: "rook-tls"
     cephClusterSpec:
       crashCollector:
         disable: false

@@ -24,7 +24,7 @@ spec:
       TZ: "America/Chicago"
       ND_LOGLEVEL: info
       ND_ENABLETRANSCODINGCONFIG: "true"
-      ND_MUSICFOLDER: /music
+      ND_MUSICFOLDER: /music/Sorted
     ingress:
       main:
         enabled: true

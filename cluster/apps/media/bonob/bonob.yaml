@@ -1,0 +1,99 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bonob
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      app: bonob
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: bonob
+    spec:
+      containers:
+        - image: simojenki/bonob:latest
+          imagePullPolicy: "Always"
+          name: bonob
+          env:
+            - name: BNB_PORT
+              value: "3000"
+            - name: BNB_SECRET
+              value: "${SECRET_BONOB_KEY}"
+            - name: BNB_URL
+              value: "https://bonob.${SECRET_DOMAIN}"
+            - name: BNB_SUBSONIC_URL
+              value: "https://navidrome.${SECRET_DOMAIN}"
+            - name: BNB_SONOS_SEED_HOST
+              value: "${SONOS_SEED_ADDR}"
+            - name: BNB_SONOS_SERVICE_NAME
+              value: "Navidrome"
+            - name: BNB_SONOS_SERVICE_ID
+              value: "246"
+            - name: BNB_SONOS_AUTO_REGISTER
+              value: "true"
+            - name: BNB_SONOS_DEVICE_DISCOVERY
+              value: "true"
+            - name: BNB_ICON_FOREGROUND_COLOR
+              value: "cornflowerblue"
+            - name: BNB_ICON_BACKGROUND_COLOR
+              value: "dimgray"
+          ports:
+            - containerPort: 3000
+              name: bonob
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bonob
+  namespace: media
+spec:
+  type: ClusterIP
+  selector:
+    app: bonob
+  ports:
+    - name: bonob
+      port: 3000
+      protocol: TCP
+      targetPort: 3000
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bonob
+  namespace: media
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+    traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+spec:
+  ingressClassName: "traefik"
+  tls:
+    - hosts:
+        - bonob.${SECRET_DOMAIN}
+      secretName: "bonob-tls"
+  rules:
+    - host: bonob.${SECRET_DOMAIN}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bonob
+                port:
+                  number: 3000

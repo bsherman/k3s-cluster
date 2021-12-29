@@ -216,7 +216,7 @@ spec:
 #          objectStorageConfig:
 #            name: thanos-objstore
 #            key: objstore.yml
-#        additionalScrapeConfigs:
+        additionalScrapeConfigs:
 #          - job_name: cadvisor
 #            honor_timestamps: true
 #            static_configs:
@@ -227,12 +227,14 @@ spec:
 #            static_configs:
 #              - targets:
 #                  - "opnsense:9153"
-#          - job_name: minio
-#            honor_timestamps: true
-#            metrics_path: /minio/v2/metrics/cluster
-#            static_configs:
-#              - targets:
-#                  - "expanse:9000"
+         - job_name: minio
+           honor_timestamps: true
+           bearer_token: ${SECRET_MINIO_TOKEN}
+           metrics_path: /minio/v2/metrics/cluster
+           scheme: https
+           static_configs:
+             - targets:
+                 - "minio.shermanclan.com"
 #          - job_name: node-exporter
 #            honor_timestamps: true
 #            static_configs:

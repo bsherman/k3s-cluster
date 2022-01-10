@@ -41,6 +41,12 @@ spec:
         - name: Channels DVR
           url: http://channels.${SECRET_DOMAIN}:8089
           icon: television-play
+        - name: Minio Console
+          url: http://minio-console.${SECRET_DOMAIN}
+          icon: backup-restore
+        - name: Minio's Traefik
+          url: http://minio-traefik.${SECRET_DOMAIN}
+          icon: web
       groups:
         - name: Cloud
           links:

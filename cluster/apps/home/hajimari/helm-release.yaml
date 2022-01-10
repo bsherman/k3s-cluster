@@ -29,6 +29,7 @@ spec:
           - games
           - home
           - media
+          - monitoring
           - networking
           - rook-ceph
           - unifi

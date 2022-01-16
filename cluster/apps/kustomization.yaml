@@ -6,4 +6,4 @@ resources:
   - networking
   #- media
   #- monitoring
-  - system-upgrade
+  #- system-upgrade

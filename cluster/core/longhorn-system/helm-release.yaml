@@ -19,16 +19,12 @@ spec:
     persistence:
       defaultClass: false
     longhornManager:
-      nodeSelector:
-        nodetype: longhorn
       tolerations:
         - key: "nodetype"
           operator: "Equal"
           value: "longhorn"
           effect: "NoSchedule"
     longhornDriver:
-      nodeSelector:
-        nodetype: longhorn
       tolerations:
       - key: "nodetype"
         operator: "Equal"
@@ -51,5 +47,4 @@ spec:
       replicaAutoBalance: best-effort
       storageOverProvisioningPercentage: 100
       storageMinimalAvailablePercentage: 10
-      systemManagedComponentsNodeSelector: "nodetype:longhorn"
       taintToleration: "nodetype=longhorn:NoSchedule"

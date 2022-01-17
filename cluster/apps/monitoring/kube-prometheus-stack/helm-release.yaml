@@ -210,31 +210,31 @@ spec:
               resources:
                 requests:
                   storage: 10Gi
-#        thanos:
-#          image: quay.io/thanos/thanos:v0.23.1
-#          version: v0.22.0
-#          objectStorageConfig:
-#            name: thanos-objstore
-#            key: objstore.yml
+        #        thanos:
+        #          image: quay.io/thanos/thanos:v0.23.1
+        #          version: v0.22.0
+        #          objectStorageConfig:
+        #            name: thanos-objstore
+        #            key: objstore.yml
         additionalScrapeConfigs:
-#          - job_name: cadvisor
-#            honor_timestamps: true
-#            static_configs:
-#              - targets:
-#                  - "expanse:8005"
-#          - job_name: coredns
-#            honor_timestamps: true
-#            static_configs:
-#              - targets:
-#                  - "opnsense:9153"
-         - job_name: minio
-           honor_timestamps: true
-           bearer_token: ${SECRET_MINIO_TOKEN}
-           metrics_path: /minio/v2/metrics/cluster
-           scheme: https
-           static_configs:
-             - targets:
-                 - "minio.shermanclan.com"
+          #          - job_name: cadvisor
+          #            honor_timestamps: true
+          #            static_configs:
+          #              - targets:
+          #                  - "expanse:8005"
+          #          - job_name: coredns
+          #            honor_timestamps: true
+          #            static_configs:
+          #              - targets:
+          #                  - "opnsense:9153"
+          - job_name: minio
+            honor_timestamps: true
+            bearer_token: ${SECRET_MINIO_TOKEN}
+            metrics_path: /minio/v2/metrics/cluster
+            scheme: https
+            static_configs:
+              - targets:
+                  - "minio.shermanclan.com"
 #          - job_name: node-exporter
 #            honor_timestamps: true
 #            static_configs:

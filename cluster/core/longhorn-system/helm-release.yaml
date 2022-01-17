@@ -20,24 +20,23 @@ spec:
       defaultClass: false
     longhornManager:
       tolerations:
-        - key: "nodetype"
-          operator: "Equal"
-          value: "longhorn"
+        - key: "node-role.kubernetes.io/longhorn"
+          operator: "Exists"
           effect: "NoSchedule"
     longhornDriver:
+      nodeSelector:
+        node-role.kubernetes.io/longhorn: "true"
       tolerations:
-      - key: "nodetype"
-        operator: "Equal"
-        value: "longhorn"
-        effect: "NoSchedule"
+        - key: "node-role.kubernetes.io/longhorn"
+          operator: "Exists"
+          effect: "NoSchedule"
     longhornUI:
       nodeSelector:
-        nodetype: longhorn
+        node-role.kubernetes.io/longhorn: "true"
       tolerations:
-      - key: "nodetype"
-        operator: "Equal"
-        value: "longhorn"
-        effect: "NoSchedule"
+        - key: "node-role.kubernetes.io/longhorn"
+          operator: "Exists"
+          effect: "NoSchedule"
     defaultSettings:
       backupTarget: s3://longhorn-backups@us-east-1/
       backupTargetCredentialSecret: minio-secret
@@ -47,4 +46,4 @@ spec:
       replicaAutoBalance: best-effort
       storageOverProvisioningPercentage: 100
       storageMinimalAvailablePercentage: 10
-      taintToleration: "nodetype=longhorn:NoSchedule"
+      taintToleration: "node-role.kubernetes.io/longhorn:NoSchedule"

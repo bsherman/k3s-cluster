@@ -24,8 +24,6 @@ spec:
     envFrom:
       - secretRef:
           name: valheim
-    nodeSelector:
-      quicksync: "true"
     service:
       main:
         type: LoadBalancer

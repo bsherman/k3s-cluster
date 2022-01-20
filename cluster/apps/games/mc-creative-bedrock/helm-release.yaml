@@ -57,5 +57,5 @@ spec:
         existingClaim: mc-creative-minecraft-bedrock
     resources:
       requests:
-        memory: 512Mi 
+        memory: 512Mi
         cpu: 500m

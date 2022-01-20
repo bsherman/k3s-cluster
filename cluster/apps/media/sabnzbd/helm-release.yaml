@@ -21,6 +21,7 @@ spec:
       tag: v3.4.2
     env:
       TZ: "America/Chicago"
+      HOST_WHITELIST_ENTRIES: "downloads.${SECRET_DOMAIN}"
     ingress:
       main:
         enabled: true

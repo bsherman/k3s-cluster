@@ -37,3 +37,10 @@ k3s_server_manifests_urls:
 k3s_server_manifests_templates:
   - "calico-installation.yaml.j2"
   - "kube-vip-daemonset.yaml.j2"
+
+k3s_registries:
+  configs:
+    "docker.io":
+      auth:
+        username: "{{ docker_username }}"
+        password: "{{ docker_password }}"

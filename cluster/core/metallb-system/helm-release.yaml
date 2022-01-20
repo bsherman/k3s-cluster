@@ -21,3 +21,8 @@ spec:
           protocol: layer2
           addresses:
             - "${METALLB_LB_RANGE}"
+        - name: manual-assignment-only
+          auto-assign: false
+          protocol: layer2
+          addresses:
+            - "${METALLB_MANUAL_RANGE}"

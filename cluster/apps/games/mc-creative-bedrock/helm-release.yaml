@@ -1,0 +1,61 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mc-creative
+  namespace: games
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: minecraft-bedrock
+      version: "1.1.9"
+      sourceRef:
+        kind: HelmRepository
+        name: minecraft-server-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    extraEnv:
+      TZ: "America/Chicago"
+    minecraftServer:
+      eula: "TRUE"
+      version: "LATEST"
+      # One of: peaceful, easy, normal, and hard
+      difficulty: peaceful
+      # Max connected players.
+      maxPlayers: 10
+      # The world is ticked this many chunks away from any player.
+      tickDistance: 4
+      # Max view distance (in chunks).
+      viewDistance: 16
+      # The "level-name" value is used as the world name and its folder name. The player may also copy their saved game folder here, and change the name to the same as that folder's to load it instead.
+      levelName: PandaLand
+      # Define this if you want a specific map generation seed.
+      levelSeed:
+      # One of: creative, survival, adventure, spectator
+      gameMode: creative
+      # Permission level for new players joining for the first time (visitor, member, operator)
+      defaultPermission: member
+      # After a player has idled for this many minutes they get kicked.
+      playerIdleTimeout: 60
+      # This is the server name shown in the in-game server list.
+      serverName: "Creative PandaLand"
+      # Check accounts against Minecraft account service.
+      onlineMode: false
+      # Maximum number of threads the server tries to use. If set to 0 or removed then it uses as many as possible.
+      maxThreads: 4
+      # Cheat like commands can be used.
+      cheats: true
+      # type of kubernetes
+      serviceType: LoadBalancer
+      loadBalancerIP: 192.168.129.45
+      externalTrafficPolicy: Local
+    persistence:
+      dataDir:
+        enabled: true
+        existingClaim: mc-creative-minecraft-bedrock
+    resources:
+      requests:
+        memory: 512Mi 
+        cpu: 500m

@@ -1,0 +1,73 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: mc-badlands
+  namespace: games
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: minecraft
+      version: "3.4.2"
+      sourceRef:
+        kind: HelmRepository
+        name: minecraft-server-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    extraEnv:
+      ALLOW_FLIGHT: "TRUE"
+      ENABLE_AUTOPAUSE: "FALSE"
+      OVERRIDE_SERVER_PROPERTIES: "TRUE"
+      TZ: "America/Chicago"
+    minecraftServer:
+      eula: "TRUE"
+      # One of: LATEST, SNAPSHOT, or a specific version (ie: "1.7.9").
+      version: "1.16.5"
+      # One of: peaceful, easy, normal, and hard
+      difficulty: normal
+      # A comma-separated list of player names who should be admins.
+      ops: "${MINECRAFT_OPS}"
+      # Max connected players.
+      maxPlayers: 10
+      # This sets the maximum possible size in blocks, expressed as a radius, that the world border can obtain.
+      maxWorldSize: 29999984
+      # Max view distance (in chunks)
+      # The maximum number of milliseconds a single tick may take before the server watchdog stops the server with the message. -1 disables this entirely.
+      maxTickTime: "-1"
+      viewDistance: 10
+      # Define this if you want a specific map generation seed.
+      levelSeed: hardlead
+      # One of: creative, survival, adventure, spectator
+      gameMode: survival
+      # Message of the Day
+      motd: "Welcome to Badlands Surival"
+      # If true, enable player-vs-player damage.
+      pvp: true
+      # One of: DEFAULT, FLAT, LARGEBIOMES, AMPLIFIED, CUSTOMIZED
+      levelType: DEFAULT
+      # When levelType == FLAT or CUSTOMIZED, this can be used to further customize map generation.
+      # ref: https://hub.docker.com/r/itzg/minecraft-server/
+      generatorSettings:
+      # force re-download of server file
+      forceReDownload: false
+      # Check accounts against Minecraft account service.
+      onlineMode: true
+      # If you adjust this, you may need to adjust resources.requests above to match.
+      memory: 2048M
+      # General JVM options to be passed to the Minecraft server invocation
+      jvmOpts: ""
+      # Options like -X that need to proceed general JVM options
+      jvmXXOpts: ""
+      serviceType: LoadBalancer
+      loadBalancerIP: 192.168.129.40
+      externalTrafficPolicy: Local
+    persistence:
+      dataDir:
+        enabled: true
+        existingClaim: mc-badlands-minecraft
+    resources:
+      requests:
+        memory: 2048Mi
+        cpu: 1000m

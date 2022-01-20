@@ -1,0 +1,59 @@
+# yamllint disable
+apiVersion: v1
+kind: Secret
+metadata:
+    name: valheim
+    namespace: games
+stringData:
+    SERVER_PASS: ENC[AES256_GCM,data:gQ3cyAab,iv:7xgTWqX1gj+rN6LOyqPNJMuILBCXqnd52hIvUBK0jMI=,tag:ftHsplDTymGygl/cwyyMXA==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age: []
+    lastmodified: "2021-09-26T23:59:28Z"
+    mac: ENC[AES256_GCM,data:V4wP3TMt+RP1U2EkLAZdOoz8sN18zPRq3FZ6eGRkJiNDjxL3i875mVUN8VIZKf0HtmELUKzIiCJ0iMXS9pDyZvNo5fmtOrrn5JHIdBb1w7HtG44JN+3FmofqLtLTmIGMMY3k3SmuhXeiSvt5u1jNzuYfKyrH0YJ8fdjQncYypT8=,iv:7zZ/Un0FnQbfkVrY3nJ9xM23/wYOnr47/HjPW9dgAgA=,tag:qTIpm/G8pdsDubQbBd+blg==,type:str]
+    pgp:
+        - created_at: "2021-09-26T23:59:27Z"
+          enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMAyRNbfDmOFbkARAApD4pljFD2ovVIto1BjMDsn6rkZ5nfMHzXpXeylG9eOqe
+            k2nxiiw0smMmJoDL6E9TvSJ6ctFRq+gJjGKaCzEGaiywfV+ihQNY/Dsxysa8G1el
+            nsDN3jJ8+gdvqm7JH8cyoby93XDtb0CDqzEV3YIaUxG3NxOHCCuZW8nvXCzyXNH8
+            9Q6SS4NU4BBUoluV15otcdJU1jb+1g9OD+9LA2MQAV2ESNMpvntF6S/fcpFwVqfr
+            8AKtIPEtVTSaRq0LehVRolzRoYwSFSCeL0x3YgbhMhroKzOhSTAzjJJZbYCgWw91
+            qHyiiDN/9XbpUlxpTVcD/3fLrpUyluI2sjhJh5SySh+XcE0ypz7s1u8AQqyIliPV
+            43IkDUimIfFwRWdQEG5Lae6WH4nPHa4BYhkaCTBwsq9AdB30bBQW0bzW2M0gykyD
+            PHwHs+hgP6RxwFWQTXmHlLVo3H13J1iHHDzEd2f2TrROL+tVfvWGm4iLeGMTuiF+
+            8V1hGAh5AvXFvd2ZUA2qx9OiQ6XG0MKUQac78uYnGj4LmRsWrTSbam5O94IU7jwA
+            cUZlnkNwDUDjo5fnj2rglSU+YKqHf3dOuyK1lRJ2s0i3y/I1Bkg7jzMHkOtIhO9j
+            fXdVjsuIiuC/Zx2IumO2fY1UMocB8syKqLkVolmHX//6Cjv+CZ8M9wyTEO7tUJDS
+            XgHU9spLuLtLMV5qUVCEaqHK5oljEqI63FYAgUs2Jdx6jaD8NVo2eJUKKD0F1Jis
+            8dJPLt7M92JVGVo3a4cG3XvlfyvjnixNQMHTWhJ+bxjIeLhF/wi8idPzKUz4RDs=
+            =IGhJ
+            -----END PGP MESSAGE-----
+          fp: 5417A8097D7514F553B647C8831FF5A63FC863BF
+        - created_at: "2021-09-26T23:59:27Z"
+          enc: |
+            -----BEGIN PGP MESSAGE-----
+
+            hQIMA9pY13v/S7o8AQ/5ARzRGzfg+ztPcoBQjouuQdWysTUt7E8O63ACs9b5KBbj
+            ZuGwXdNVxBJg6CKcNrH3IBVdPpPt1YfMCGBL9Yzc1kRIqQcrWTSMl04uJKR1aZHx
+            uMKDQzyBlZzoIMHKzkDf5f3gGPoTHw8GyAqHHe+UGp54h0k3C1HjTEQci0Tq11Sm
+            X0v4Xgbzig1bOoYJj0lfgmxSNPNY7KlmiT24UNGWU4UcdzNoDmTe0jKn+ys3ji7s
+            nY1LvFwEq6UKetkG8DfxXwPOI/PRHrAZnDtxC/ekHgZO4xbn2RlHjV22n8VVsMx4
+            RzUa4MOC1bk6F9ebyD4X5uWtPaunn8V2o8nF30wBz6gGDnODx7V1ysrts1simSgG
+            IXPXn+Vll2lmFQIqXSx1g9bxA6vsNZlM9kIqQPuMYuuie9Fg1+wURJCryWOGpv1V
+            pnL1yeEInhbpjwv1mn/SyQoT+vpBSNIRMld6nSD4HeNrX2UDLH5O9f4Ajh/zFGj2
+            7czdYymerhMCcd1qE3xT3h76RwMWfdR/LYNVae9dq/Df5NYCe+BkJYS1XpTnWMNv
+            ZHiNfxXOI59WANeFF50sfvXOGgZuodvBk87S6GaS4o+2M/YPbo4sspKAejDbF5Zy
+            Nzfo7jffIK40d+cxMEEjXBNnPepSMSUnROwo/WdkYN9YhjdBi5bt94KJzd1+8SjS
+            XgGTyPQuEEXCtQ5DwCvIVtF1QwyhaO2Ap9btxh1fPXMNCCkuL4ixyTCs5Us09knf
+            0GLJ95uRuNTb4wo9CwhLE8TGoYSHjHJ7/js0LiA6mOd+Vzx93+wE5kNLN2VXWaU=
+            =d/fu
+            -----END PGP MESSAGE-----
+          fp: 0ECE95F1BC64A503873239FA7C97A5D23C789BE8
+    encrypted_regex: ^(data|stringData)$
+    version: 3.7.1

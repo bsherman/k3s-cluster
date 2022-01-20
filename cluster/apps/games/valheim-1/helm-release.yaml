@@ -1,0 +1,37 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: valheim
+  namespace: games
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: valheim
+      version: "4.0.0"
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    env:
+      TZ: "America/Chicago"
+      SERVER_NAME: Jaminheim
+      WORLD_NAME: MayIsland
+      SERVER_PUBLIC: true
+    envFrom:
+      - secretRef:
+          name: valheim
+    nodeSelector:
+      quicksync: "true"
+    service:
+      main:
+        type: LoadBalancer
+        externalTrafficPolicy: Local
+        loadBalancerIP: 192.168.129.49
+    persistence:
+      config:
+        enabled: true
+        existingClaim: valheim-config

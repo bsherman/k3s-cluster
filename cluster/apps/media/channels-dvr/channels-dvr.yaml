@@ -1,0 +1,78 @@
+---
+# Deploy channels-dvr
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: channels-dvr
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      app: channels-dvr
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: channels-dvr
+    spec:
+      containers:
+        - image: fancybits/channels-dvr:latest
+          name: channels-dvr
+          securityContext:
+            privileged: true
+          env:
+            - name: UMASK
+              value: "022"
+            - name: TZ
+              value: America/Chicago
+          ports:
+            - containerPort: 8089
+              protocol: TCP
+          volumeMounts:
+            - name: channelsdvr-iscsi
+              mountPath: /channels-dvr
+            - name: video-nfs
+              mountPath: /shares/DVR
+          resources:
+            requests:
+              gpu.intel.com/i915: 1
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              gpu.intel.com/i915: 1
+              cpu: 4000m
+              memory: 2Gi
+      volumes:
+        - name: channelsdvr-iscsi
+          iscsi:
+            targetPortal: ${NAS_ADDR}:3260
+            iqn: iqn.2021-09.k8s.iscsi:channelsdvr
+            lun: 1
+            fsType: ext4
+            readOnly: false
+        - name: video-nfs
+          nfs:
+            server: ${NAS_ADDR}
+            path: "/bigdata/files/video/ChannelsDVR"
+
+---
+# Expose channels-dvr on the local network
+apiVersion: v1
+kind: Service
+metadata:
+  name: channels-dvr-svc
+  namespace: media
+spec:
+  type: LoadBalancer
+  loadBalancerIP: 192.168.129.51
+  externalTrafficPolicy: Local
+  selector:
+    app: channels-dvr
+  ports:
+    - name: channels-dvr
+      port: 8089
+      protocol: TCP
+      targetPort: 8089

@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - bazarr
   - bonob
+  - channels-dvr
   - navidrome
   - radarr
   - sabnzbd

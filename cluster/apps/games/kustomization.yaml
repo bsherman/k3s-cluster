@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - mc-badlands
   - mc-beeplains
+  - mc-cousins-bedrock
   - mc-creative-bedrock
   - mc-survival-bedrock
   - valheim-1

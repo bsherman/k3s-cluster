@@ -30,7 +30,6 @@ spec:
           - media
           - monitoring
           - networking
-          - rook-ceph
           - unifi
       name: "Y'all"
       customApps:

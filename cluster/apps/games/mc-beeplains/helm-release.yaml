@@ -61,7 +61,7 @@ spec:
       # Options like -X that need to proceed general JVM options
       jvmXXOpts: ""
       serviceType: LoadBalancer
-      loadBalancerIP: 192.168.129.41
+      loadBalancerIP: "${METALLB_MC_JAVA_2_ADDR}"
       externalTrafficPolicy: Local
     persistence:
       dataDir:

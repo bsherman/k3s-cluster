@@ -67,7 +67,7 @@ metadata:
   namespace: media
 spec:
   type: LoadBalancer
-  loadBalancerIP: 192.168.129.51
+  loadBalancerIP: "${METALLB_CHANNELS_ADDR}"
   externalTrafficPolicy: Local
   selector:
     app: channels-dvr

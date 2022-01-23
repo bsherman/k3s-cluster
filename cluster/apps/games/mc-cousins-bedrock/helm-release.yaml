@@ -49,7 +49,7 @@ spec:
       cheats: true
       # type of kubernetes
       serviceType: LoadBalancer
-      loadBalancerIP: 192.168.129.43
+      loadBalancerIP: "${METALLB_MC_BED_1_ADDR}"
       externalTrafficPolicy: Local
     persistence:
       dataDir:

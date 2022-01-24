@@ -32,7 +32,7 @@ spec:
             - containerPort: 8089
               protocol: TCP
           volumeMounts:
-            - name: channelsdvr-iscsi
+            - name: channels-dvr
               mountPath: /channels-dvr
             - name: video-nfs
               mountPath: /shares/DVR
@@ -46,13 +46,9 @@ spec:
               cpu: 4000m
               memory: 2Gi
       volumes:
-        - name: channelsdvr-iscsi
-          iscsi:
-            targetPortal: ${NAS_ADDR}:3260
-            iqn: iqn.2021-09.k8s.iscsi:channelsdvr
-            lun: 1
-            fsType: ext4
-            readOnly: false
+        - name: channels-dvr
+          persistentVolumeClaim:
+            claimName: channels-dvr
         - name: video-nfs
           nfs:
             server: ${NAS_ADDR}

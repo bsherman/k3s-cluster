@@ -1,1 +1,13 @@
-# ChannelsDVR uses iscsi instead of PVC from longhorn
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: channels-dvr
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 20Gi

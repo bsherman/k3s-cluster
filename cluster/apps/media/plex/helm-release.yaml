@@ -31,14 +31,7 @@ spec:
     persistence:
       config:
         enabled: true
-        type: custom
-        volumeSpec:
-          iscsi:
-            targetPortal: ${NAS_ADDR}:3260
-            iqn: iqn.2021-09.k8s.iscsi:plexconfig
-            lun: 1
-            fsType: ext4
-            readOnly: false
+        existingClaim: plex-config
       transcode:
         enabled: true
         type: emptyDir
@@ -75,13 +68,6 @@ spec:
             server: "${NAS_ADDR}"
             path: "/bigdata/files/video"
         mountPath: /files/video
-    podSecurityContext:
-      runAsUser: 673
-      runAsGroup: 673
-      fsGroup: 673
-      supplementalGroups:
-        - 44
-        - 109
     resources:
       requests:
         # Hardware acceleration using an Intel iGPU w/ QuickSync and

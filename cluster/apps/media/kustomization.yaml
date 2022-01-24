@@ -6,6 +6,7 @@ resources:
   - bonob
   - channels-dvr
   - navidrome
+  - plex
   - radarr
   - samba
   - sabnzbd

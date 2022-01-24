@@ -1,0 +1,96 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: plex
+  namespace: media
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: plex
+      version: 6.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: ghcr.io/k8s-at-home/plex
+      tag: v1.25.3.5409-f11334058
+    env:
+      TZ: "America/Chicago"
+      ADVERTISE_IP: "http://${METALLB_PLEX_ADDR}:32400/"
+      PLEX_MEDIA_SERVER_USE_SYSLOG: "true"
+    service:
+      main:
+        type: LoadBalancer
+        loadBalancerIP: "${METALLB_PLEX_ADDR}"
+        externalTrafficPolicy: Local
+    persistence:
+      config:
+        enabled: true
+        type: custom
+        volumeSpec:
+          iscsi:
+            targetPortal: ${NAS_ADDR}:3260
+            iqn: iqn.2021-09.k8s.iscsi:plexconfig
+            lun: 1
+            fsType: ext4
+            readOnly: false
+      transcode:
+        enabled: true
+        type: emptyDir
+        medium: Memory
+      # Unsure if this is needed
+      # transcode-cache:
+      #   enabled: true
+      #   type: custom
+      #   volumeSpec:
+      #     hostPath:
+      #       path: "/plex/transcode/cache"
+      #   mountPath: "/config/Library/Application Support/Plex Media Server/Cache/Transcode"
+      music:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${NAS_ADDR}"
+            path: "/data/files/music"
+        mountPath: /files/music
+      photos:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${NAS_ADDR}"
+            path: "/data/files/photos"
+        mountPath: /files/photos
+      video:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${NAS_ADDR}"
+            path: "/bigdata/files/video"
+        mountPath: /files/video
+    podSecurityContext:
+      runAsUser: 673
+      runAsGroup: 673
+      fsGroup: 673
+      supplementalGroups:
+        - 44
+        - 109
+    resources:
+      requests:
+        # Hardware acceleration using an Intel iGPU w/ QuickSync and
+        # using intel-gpu-plugin (https://github.com/intel/intel-device-plugins-for-kubernetes)
+        gpu.intel.com/i915: 1
+        cpu: 1000m
+        memory: 512Mi
+      limits:
+        # Hardware acceleration using an Intel iGPU w/ QuickSync and
+        # using intel-gpu-plugin (https://github.com/intel/intel-device-plugins-for-kubernetes)
+        gpu.intel.com/i915: 1
+        memory: 4096Mi

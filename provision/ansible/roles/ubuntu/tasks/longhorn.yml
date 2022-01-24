@@ -1,0 +1,41 @@
+---
+- name: Create directory for longhorn
+  file:
+    path: /var/lib/longhorn
+    state: directory
+    mode: '0755'
+
+- name: "Check if multipath is installed"
+  package_facts:
+    manager: "auto"
+
+- name: longhorn friendly multipathd config
+  copy:
+    src: files/multipath.conf
+    dest: /etc/multipath.conf
+    mode: 0644
+    owner: root
+    group: root
+    backup: yes
+  register: multipathd_conf
+  when: "'multipath-tools' in ansible_facts.packages"
+
+#- name: restart multipathd if config changed
+#  service:
+#    name: multipathd
+#    state: restarted
+#  when: multipathd_conf.changed
+
+- name: disable multipathd service
+  systemd:
+    name: multipathd.service
+    state: stopped
+    enabled: no
+  when: "'multipath-tools' in ansible_facts.packages"
+
+- name: disable multipathd socket
+  systemd:
+    name: multipathd.socket
+    state: stopped
+    enabled: no
+  when: "'multipath-tools' in ansible_facts.packages"

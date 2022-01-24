@@ -20,8 +20,8 @@ spec:
     env:
       # -- Set the container timezone
       TZ: America/Chicago
-      SHARE1: Sleep;/samba-sleep;yes;yes;yes
-      #SHARE1: Sleep;/samba-sleep;yes;no;yes # allow write
+      SHARE1: Sleep;/sleep;yes;yes;yes # read-only
+      #SHARE1: Sleep;/sleep;yes;no;yes # allow write
       PERMISSIONS: true
 
     service:

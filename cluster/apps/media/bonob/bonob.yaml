@@ -18,8 +18,7 @@ spec:
         app: bonob
     spec:
       containers:
-        - image: simojenki/bonob:latest
-          imagePullPolicy: "Always"
+        - image: simojenki/bonob:v0.6.1
           name: bonob
           env:
             - name: BNB_PORT

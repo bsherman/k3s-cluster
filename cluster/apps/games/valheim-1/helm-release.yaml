@@ -21,7 +21,8 @@ spec:
       SERVER_NAME: Jaminheim
       WORLD_NAME: MayIsland
       SERVER_PUBLIC: true
-      BACKUPS_CRON: "0 */6 * * *"
+      BACKUPS_CRON: "0 6 * * *"
+      BACKUPS_DIRECTORY: /backups
     envFrom:
       - secretRef:
           name: valheim
@@ -34,3 +35,6 @@ spec:
       config:
         enabled: true
         existingClaim: valheim-config
+      backups:
+        enabled: true
+        existingClaim: valheim-backups

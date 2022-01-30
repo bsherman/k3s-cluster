@@ -17,7 +17,7 @@ spec:
       interval: 5m
   values:
     extraEnv:
-      TZ: "America/Chicago"
+      TZ: "${TIMEZONE}"
     minecraftServer:
       eula: "TRUE"
       version: "LATEST"

@@ -20,7 +20,7 @@ spec:
       ALLOW_FLIGHT: "TRUE"
       ENABLE_AUTOPAUSE: "FALSE"
       OVERRIDE_SERVER_PROPERTIES: "TRUE"
-      TZ: "America/Chicago"
+      TZ: "${TIMEZONE}"
     minecraftServer:
       eula: "TRUE"
       # One of: LATEST, SNAPSHOT, or a specific version (ie: "1.7.9").

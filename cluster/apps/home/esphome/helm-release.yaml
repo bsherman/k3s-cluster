@@ -17,7 +17,7 @@ spec:
       interval: 5m
   values:
     env:
-      TZ: "America/Chicago"
+      TZ: "${TIMEZONE}"
       ESPHOME_DASHBOARD_USE_PING: "true"
 
     ingress:

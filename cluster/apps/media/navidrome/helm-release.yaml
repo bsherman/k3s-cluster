@@ -20,7 +20,7 @@ spec:
       repository: deluan/navidrome
       tag: 0.47.5
     env:
-      TZ: "America/Chicago"
+      TZ: "${TIMEZONE}"
       ND_LOGLEVEL: info
       ND_ENABLETRANSCODINGCONFIG: "true"
       ND_MUSICFOLDER: /music/Sorted

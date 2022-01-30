@@ -19,7 +19,7 @@ spec:
   values:
     env:
       # -- Set the container timezone
-      TZ: America/Chicago
+      TZ: ${TIMEZONE}
       SHARE1: Sleep;/sleep;yes;yes;yes # read-only
       #SHARE1: Sleep;/sleep;yes;no;yes # allow write
       PERMISSIONS: true

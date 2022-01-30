@@ -15,6 +15,7 @@
     name:
       - apt-transport-https
       - arptables
+      - avahi-daemon
       - ca-certificates
       - curl
       - ebtables
@@ -71,6 +72,22 @@
 - name: Restart unattended-upgrades service
   ansible.builtin.service:
     name: unattended-upgrades.service
+    daemon_reload: true
+    enabled: true
+    state: restarted
+
+- name: Enable reflector with custom avahi-daemon config
+  copy:
+    src: files/avahi-daemon.conf
+    dest: /etc/avahi-daemon.conf
+    mode: 0644
+    owner: root
+    group: root
+    backup: yes
+
+- name: Restart avahi-daemon service
+  ansible.builtin.service:
+    name: avahi-daemon.service
     daemon_reload: true
     enabled: true
     state: restarted

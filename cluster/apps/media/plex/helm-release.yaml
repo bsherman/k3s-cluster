@@ -21,12 +21,12 @@ spec:
       tag: v1.25.3.5409-f11334058
     env:
       TZ: "America/Chicago"
-      ADVERTISE_IP: "http://${METALLB_PLEX_ADDR}:32400/"
+      ADVERTISE_IP: "http://${SVC_PLEX_ADDR}:32400/"
       PLEX_MEDIA_SERVER_USE_SYSLOG: "true"
     service:
       main:
         type: LoadBalancer
-        loadBalancerIP: "${METALLB_PLEX_ADDR}"
+        loadBalancerIP: "${SVC_PLEX_ADDR}"
         externalTrafficPolicy: Local
     persistence:
       config:

@@ -49,7 +49,7 @@ spec:
       cheats: true
       # type of kubernetes
       serviceType: LoadBalancer
-      loadBalancerIP: "${METALLB_MC_BED_3_ADDR}"
+      loadBalancerIP: "${SVC_MC_BED_3_ADDR}"
       externalTrafficPolicy: Local
     persistence:
       dataDir:

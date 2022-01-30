@@ -30,7 +30,7 @@ spec:
       main:
         type: LoadBalancer
         externalTrafficPolicy: Local
-        loadBalancerIP: "${METALLB_VALHEIM_ADDR}"
+        loadBalancerIP: "${SVC_VALHEIM_ADDR}"
     persistence:
       config:
         enabled: true

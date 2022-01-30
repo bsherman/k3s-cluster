@@ -63,7 +63,7 @@ metadata:
   namespace: media
 spec:
   type: LoadBalancer
-  loadBalancerIP: "${METALLB_CHANNELS_ADDR}"
+  loadBalancerIP: "${SVC_CHANNELS_ADDR}"
   externalTrafficPolicy: Local
   selector:
     app: channels-dvr

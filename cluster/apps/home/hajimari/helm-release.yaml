@@ -34,7 +34,7 @@ spec:
       name: "Y'all"
       customApps:
         - name: Plex
-          url: http://192.168.129.27:32400/web/index.html
+          url: http://${SVC_PLEX_ADDR}:32400/web/index.html
           icon: plex
         - name: Channels DVR
           url: http://channels.${SECRET_DOMAIN}:8089

@@ -32,7 +32,7 @@ spec:
             - name: BNB_SONOS_SEED_HOST
               value: "${SONOS_SEED_ADDR}"
             - name: BNB_SONOS_SERVICE_NAME
-              value: "Navidrome"
+              value: "Home Music"
             - name: BNB_SONOS_SERVICE_ID
               value: "246"
             - name: BNB_SONOS_AUTO_REGISTER

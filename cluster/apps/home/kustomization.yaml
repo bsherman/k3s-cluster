@@ -3,5 +3,6 @@ kind: Kustomization
 resources:
   - esphome
   - hajimari
+  - homepage
   - home-assistant
   - mosquitto

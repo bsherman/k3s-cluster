@@ -1,0 +1,68 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: channels-dvr
+  namespace: media
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: /charts/kah-common/
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      interval: 5m
+  values:
+    image:
+      repository: fancybits/channels-dvr
+      tag: "latest"
+    nameOverride: channels-dvr
+    env:
+      TZ: "${TIMEZONE}"
+      UMASK: "022"
+    persistence:
+      channels-dvr:
+        enabled: true
+        existingClaim: channels-dvr
+      video-nfs:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${NAS_ADDR}"
+            path: "/bigdata/files/video/ChannelsDVR"
+        mountPath: /shares/DVR
+    resources:
+      requests:
+        gpu.intel.com/i915: 1
+        cpu: 100m
+        memory: 512Mi
+      limits:
+        gpu.intel.com/i915: 1
+        cpu: 4000m
+        memory: 2Gi
+    service:
+      main:
+        enabled: true
+        type: LoadBalancer
+        annotations:
+          metallb.universe.tf/allow-shared-ip: channels-dvr-sharedip
+        loadBalancerIP: "${SVC_CHANNELS_ADDR}"
+        ports:
+          http:
+            port: 8089
+      otherudp:
+        enabled: true
+        primary: false
+        name: channels-dvr-udp
+        annotations:
+          metallb.universe.tf/allow-shared-ip: channels-dvr-sharedip
+        type: LoadBalancer
+        loadBalancerIP: "${SVC_CHANNELS_ADDR}"
+        ports:
+          mdns:
+            enabled: true
+            port: 5353
+            targetPort: 5353

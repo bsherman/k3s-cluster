@@ -46,3 +46,12 @@ spec:
       storageOverProvisioningPercentage: 100
       storageMinimalAvailablePercentage: 10
       taintToleration: "node-role.kubernetes.io/longhorn:NoSchedule"
+    ingress:
+      enabled: true
+      ingressClassName: "traefik"
+      annotations:
+        cert-manager.io/cluster-issuer: "letsencrypt-production"
+        traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+      host: "longhorn.${SECRET_DOMAIN}"
+      tls: true
+      tlsSecret: "longhorn-tls"

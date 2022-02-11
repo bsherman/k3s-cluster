@@ -23,6 +23,12 @@ spec:
           name: channels-dvr
           securityContext:
             privileged: true
+# when this gets converted to helm
+#     podSecurityContext:
+#       supplementalGroups:
+#         - 44
+#         - 109
+#         - 100
           env:
             - name: UMASK
               value: "022"

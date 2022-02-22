@@ -21,12 +21,17 @@ spec:
       ENABLE_AUTOPAUSE: "FALSE"
       OVERRIDE_SERVER_PROPERTIES: "TRUE"
       TZ: "${TIMEZONE}"
+      REMOVE_OLD_VANILLATWEAKS: "TRUE"
+      VANILLATWEAKS_SHARECODE: "pL7CFT"
+      ENFORCE_WHITELIST: "true"
+      OVERRIDE_WHITELIST: "false"
     minecraftServer:
       eula: "TRUE"
+      type: "FABRIC"
       # One of: LATEST, SNAPSHOT, or a specific version (ie: "1.7.9").
-      version: "1.16.5"
+      version: "1.18.1"
       # One of: peaceful, easy, normal, and hard
-      difficulty: normal
+      difficulty: hard
       # A comma-separated list of player names who should be admins.
       ops: "${MINECRAFT_OPS}"
       # Max connected players.
@@ -36,7 +41,7 @@ spec:
       # Max view distance (in chunks)
       # The maximum number of milliseconds a single tick may take before the server watchdog stops the server with the message. -1 disables this entirely.
       maxTickTime: "-1"
-      viewDistance: 10
+      viewDistance: 18
       # Define this if you want a specific map generation seed.
       levelSeed: hardlead
       # One of: creative, survival, adventure, spectator

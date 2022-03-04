@@ -10,7 +10,7 @@ spec:
     spec:
       # renovate: registryUrl=https://k8s-at-home.com/charts/
       chart: samba
-      version: 5.2.0
+      version: 6.0.0
       sourceRef:
         kind: HelmRepository
         name: k8s-at-home-charts
@@ -20,9 +20,30 @@ spec:
     env:
       # -- Set the container timezone
       TZ: ${TIMEZONE}
-      SHARE1: Sleep;/sleep;yes;yes;yes # read-only
-      #SHARE1: Sleep;/sleep;yes;no;yes # allow write
-      PERMISSIONS: true
+    configmap:
+      config:
+        enabled: true
+        data:
+          config.yml: |
+            auth:
+              - user: smbuser
+                group: smb
+                uid: 100
+                gid: 101
+                password: smbuser
+            global:
+              - "force user = smb"
+              - "force group = smbuser"
+              - "create mask = 0644"
+              - "directory mask = 0755"
+            share:
+              - name: Sleep
+                path: /sleep
+                browsable: yes
+                readonly: yes
+                guestok: yes
+                comment: "sleepy tracks"
+                veto: yes
 
     service:
       main:

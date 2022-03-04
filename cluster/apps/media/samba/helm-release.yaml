@@ -27,12 +27,12 @@ spec:
           config.yml: |
             auth:
               - user: smbuser
-                group: smb
-                uid: 100
+                group: smbuser
+                uid: 101
                 gid: 101
                 password: smbuser
             global:
-              - "force user = smb"
+              - "force user = smbuser"
               - "force group = smbuser"
               - "create mask = 0644"
               - "directory mask = 0755"
@@ -40,7 +40,7 @@ spec:
               - name: Sleep
                 path: /sleep
                 browsable: yes
-                readonly: yes
+                readonly: no
                 guestok: yes
                 comment: "sleepy tracks"
                 veto: yes

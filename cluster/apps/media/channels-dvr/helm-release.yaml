@@ -32,7 +32,7 @@ spec:
         volumeSpec:
           nfs:
             server: "${NAS_ADDR}"
-            path: "/bigdata/files/video/ChannelsDVR"
+            path: "/data/files/video/ChannelsDVR"
         mountPath: /shares/DVR
     resources:
       requests:

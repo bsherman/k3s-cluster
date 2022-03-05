@@ -62,3 +62,9 @@ spec:
     podSecurityContext:
       runAsUser: 568
       runAsGroup: 20003
+    resources:
+      requests:
+        memory: 250Mi
+        cpu: 500m
+      limits:
+        memory: 2000Mi

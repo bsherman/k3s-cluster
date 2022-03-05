@@ -5,6 +5,7 @@ resources:
   - bazarr
   - bonob
   - channels-dvr
+  - lidarr
   - navidrome
   - plex
   - radarr

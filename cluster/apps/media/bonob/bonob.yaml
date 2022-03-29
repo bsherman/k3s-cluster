@@ -18,7 +18,7 @@ spec:
         app: bonob
     spec:
       containers:
-        - image: simojenki/bonob:v0.6.1
+        - image: simojenki/bonob:v0.6.2
           name: bonob
           env:
             - name: BNB_PORT

@@ -1,0 +1,57 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: photos-mom
+  namespace: media
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: photoprism
+      version: 6.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: k8s-at-home-charts
+        namespace: flux-system
+      interval: 5m
+  values:
+    env:
+      TZ: "${TIMEZONE}"
+      PHOTOPRISM_UID: 1001
+      PHOTOPRISM_GID: 1001
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "traefik"
+        annotations:
+          cert-manager.io/cluster-issuer: "letsencrypt-production"
+          traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
+        hosts:
+          - host: "photos-mom.${SECRET_DOMAIN}"
+            paths:
+              - path: /
+                pathType: Prefix
+        tls:
+          - hosts:
+              - photos-mom.${SECRET_DOMAIN}
+            secretName: "photos-mom-tls"
+    persistence:
+      config:
+        enabled: true
+        existingClaim: photos-mom-config
+        mountPath: /photoprism/storage
+      originals:
+        enabled: true
+        type: custom
+        volumeSpec:
+          nfs:
+            server: "${NAS_ADDR}"
+            path: "/data/k8s/mom-photos"
+        mountPath: "/photoprism/originals"
+    resources:
+      requests:
+        memory: 2000Mi
+        cpu: 1000m
+      limits:
+        memory: 6000Mi

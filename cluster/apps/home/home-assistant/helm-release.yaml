@@ -81,7 +81,14 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: home-assistant-config
+        type: custom
+        volumeSpec:
+          iscsi:
+            targetPortal: ${NAS_ADDR}:3260
+            iqn: iqn.2022-04.k8s.iscsi:home-assistant
+            lun: 1
+            fsType: ext4
+            readOnly: false
     podAnnotations:
       secret.reloader.stakater.com/reload: "home-assistant"
     addons:

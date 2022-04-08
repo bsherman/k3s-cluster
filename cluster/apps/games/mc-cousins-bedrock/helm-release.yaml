@@ -54,14 +54,7 @@ spec:
     persistence:
       dataDir:
         enabled: true
-        type: custom
-        volumeSpec:
-          iscsi:
-            targetPortal: ${NAS_ADDR}:3260
-            iqn: iqn.2022-04.k8s.iscsi:mc-cousins
-            lun: 1
-            fsType: ext4
-            readOnly: false
+        existingClaim: mc-cousins-iscsi
     resources:
       requests:
         memory: 512Mi

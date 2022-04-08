@@ -21,7 +21,7 @@ spec:
     minecraftServer:
       eula: "TRUE"
       version: "LATEST"
-      # One of: peaceful, easy, normal, and hard
+      # One of: peaceful, easy, normal, hard
       difficulty: normal
       # Max connected players.
       maxPlayers: 10

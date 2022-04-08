@@ -54,7 +54,14 @@ spec:
     persistence:
       dataDir:
         enabled: true
-        existingClaim: mc-cousins-minecraft-bedrock
+        type: custom
+        volumeSpec:
+          iscsi:
+            targetPortal: ${NAS_ADDR}:3260
+            iqn: iqn.2022-04.k8s.iscsi:mc-cousins
+            lun: 1
+            fsType: ext4
+            readOnly: false
     resources:
       requests:
         memory: 512Mi

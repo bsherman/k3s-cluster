@@ -9,26 +9,26 @@ spec:
   chart:
     spec:
       chart: grafana
-      version: 6.21.5
+      version: 6.26.0
       sourceRef:
         kind: HelmRepository
         name: grafana-charts
         namespace: flux-system
       interval: 5m
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
   values:
     replicas: 1
     env:
       GF_EXPLORE_ENABLED: true
       GF_PANELS_DISABLE_SANITIZE_HTML: true
       GF_LOG_FILTERS: rendering:debug
-      GF_DATE_FORMATS_USE_BROWSER_LOCALE: true
       GF_DATE_FORMATS_FULL_DATE: "MMM Do, YYYY hh:mm:ss a"
-      GF_DATE_FORMATS_INTERVAL_SECOND: "hh:mm:ss a"
-      GF_DATE_FORMATS_INTERVAL_MINUTE: "hh:mm a"
-      GF_DATE_FORMATS_INTERVAL_HOUR: "DD/MM hh:mm a"
-      GF_DATE_FORMATS_INTERVAL_DAY: "DD/MM"
-      GF_DATE_FORMATS_INTERVAL_MONTH: "MM-YYYY"
-      GF_DATE_FORMATS_INTERVAL_YEAR: "YYYY"
     # adminPassword: "${SECRET_GRAFANA_PASSWORD}"
     grafana.ini:
       server:
@@ -73,19 +73,19 @@ spec:
           - name: Prometheus
             type: prometheus
             access: proxy
-            url: http://prometheus-prometheus:9090/
-        #     isDefault: true
-        #   - name: Loki
-        #     type: loki
-        #     access: proxy
-        #     url: http://loki:3100
+            url: http://thanos-query:9090/
+            isDefault: true
+#          - name: Loki
+#            type: loki
+#            access: proxy
+#            url: http://loki:3100
     dashboards:
       default:
-        # # Ref: https://grafana.com/grafana/dashboards/12175
-        # calico-felix:
-        #   gnetId: 12175
-        #   revision: 5
-        #   datasource: Prometheus
+        # Ref: https://grafana.com/grafana/dashboards/7845
+        zfs:
+          gnetId: 7845
+          revision: 4
+          datasource: Prometheus
         # Ref: https://grafana.com/grafana/dashboards/13502
         minio:
           gnetId: 13502
@@ -111,27 +111,13 @@ spec:
           gnetId: 11312
           revision: 8
           datasource: Prometheus
-        # Ref: https://grafana.com/grafana/dashboards/13665
-        speedtest:
-          gnetId: 13665
-          revision: 1
-          datasource: Prometheus
-        flux-cluster:
-          url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/grafana/dashboards/cluster.json
-          datasource: Prometheus
-        flux-control-plane:
-          url: https://raw.githubusercontent.com/fluxcd/flux2/main/manifests/monitoring/grafana/dashboards/control-plane.json
-          datasource: Prometheus
-        radarr:
-          url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/radarr.json
-          datasource: Prometheus
-        sonarr:
-          url: https://raw.githubusercontent.com/k8s-at-home/grafana-dashboards/main/sonarr.json
-          datasource: Prometheus
     sidecar:
       dashboards:
         enabled: true
         searchNamespace: ALL
+        folderAnnotation: grafana_folder
+        provider:
+          foldersFromFilesStructure: true
       datasources:
         enabled: true
         searchNamespace: ALL
@@ -149,15 +135,12 @@ spec:
       ingressClassName: "traefik"
       annotations:
         cert-manager.io/cluster-issuer: "letsencrypt-production"
-        hajimari.io/appName: "grafana"
-        hajimari.io/enable: "true"
-        hajimari.io/icon: "chart-bell-curve"
         traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
       hosts:
-        - "grafana.${SECRET_DOMAIN}"
+        - &host "grafana.${SECRET_DOMAIN}"
       tls:
         - hosts:
-            - "grafana.${SECRET_DOMAIN}"
+            - *host
           secretName: grafana-tls
     serviceAccount:
       create: true

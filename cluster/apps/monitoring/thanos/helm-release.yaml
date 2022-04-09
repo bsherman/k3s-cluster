@@ -9,12 +9,14 @@ spec:
   chart:
     spec:
       chart: thanos
-      version: 9.0.4
+      version: 10.3.3
       sourceRef:
         kind: HelmRepository
         name: bitnami-charts
         namespace: flux-system
       interval: 5m
+  install:
+    createNamespace: true
   values:
     image:
       registry: public.ecr.aws

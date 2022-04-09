@@ -9,13 +9,14 @@ spec:
   chart:
     spec:
       chart: kube-prometheus-stack
-      version: 32.1.0
+      version: 34.9.0
       sourceRef:
         kind: HelmRepository
         name: prometheus-community-charts
         namespace: flux-system
       interval: 5m
   install:
+    createNamespace: true
     remediation:
       retries: 3
   upgrade:
@@ -26,8 +27,25 @@ spec:
     alertmanager:
       config:
         global:
-          # slack_api_url: "${SECRET_ALERT_MANAGER_DISCORD_WEBHOOK}"
           resolve_timeout: 5m
+        receivers:
+          - name: "null"
+        route:
+          group_by: ["alertname", "job"]
+          group_wait: 30s
+          group_interval: 5m
+          repeat_interval: 6h
+          receiver: "pushover"
+          routes:
+            - receiver: "null"
+              matchers:
+                - alertname =~ "InfoInhibitor|Watchdog"
+        inhibit_rules:
+          - source_matchers:
+              - severity = "critical"
+            target_matchers:
+              - severity = "warning"
+            equal: ["alertname", "namespace"]
       ingress:
         enabled: true
         pathType: Prefix
@@ -36,16 +54,16 @@ spec:
           cert-manager.io/cluster-issuer: "letsencrypt-production"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         hosts:
-          - "alert-manager.${SECRET_DOMAIN}"
+          - &host "alert-manager.${SECRET_DOMAIN}"
         tls:
           - hosts:
-              - "alert-manager.${SECRET_DOMAIN}"
+              - *host
             secretName: alert-manager-tls
       alertmanagerSpec:
         storage:
           volumeClaimTemplate:
             spec:
-              storageClassName: "longhorn"
+              storageClassName: "ceph-block"
               resources:
                 requests:
                   storage: 1Gi
@@ -87,37 +105,18 @@ spec:
         - 192.168.129.31
         - 192.168.129.32
         - 192.168.129.33
-      service:
-        enabled: true
-        port: 10257
-        targetPort: 10257
-      serviceMonitor:
-        enabled: true
-        https: true
-        insecureSkipVerify: true
     kubeScheduler:
       enabled: true
       endpoints:
         - 192.168.129.31
         - 192.168.129.32
         - 192.168.129.33
-      service:
-        enabled: true
-        port: 10259
-        targetPort: 10259
-      serviceMonitor:
-        enabled: true
-        https: true
-        insecureSkipVerify: true
     kubeProxy:
       enabled: true
       endpoints:
         - 192.168.129.31
         - 192.168.129.32
         - 192.168.129.33
-        - 192.168.129.34
-        - 192.168.129.35
-        - 192.168.129.36
         - 192.168.129.37
         - 192.168.129.38
         - 192.168.129.39
@@ -131,15 +130,6 @@ spec:
         enabled: true
         port: 2381
         targetPort: 2381
-    prometheusOperator:
-      prometheusConfigReloader:
-        resources:
-          requests:
-            cpu: 100m
-            memory: 50Mi
-          limits:
-            cpu: 200m
-            memory: 100Mi
     prometheus:
       ingress:
         enabled: true
@@ -149,10 +139,10 @@ spec:
           cert-manager.io/cluster-issuer: "letsencrypt-production"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         hosts:
-          - "prometheus.${SECRET_DOMAIN}"
+          - &host "prometheus.${SECRET_DOMAIN}"
         tls:
           - hosts:
-              - "prometheus.${SECRET_DOMAIN}"
+              - *host
             secretName: prometheus-tls
       thanosService:
         enabled: true
@@ -171,12 +161,12 @@ spec:
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: "longhorn"
+              storageClassName: "ceph-block"
               resources:
                 requests:
                   storage: 10Gi
         thanos:
-          image: quay.io/thanos/thanos:v0.24.0
+          image: quay.io/thanos/thanos:v0.25.2
           version: v0.22.0
           objectStorageConfig:
             name: thanos-objstore
@@ -190,11 +180,3 @@ spec:
             static_configs:
               - targets:
                   - "minio.${SECRET_DOMAIN}:443"
-#          - job_name: node-exporter
-#            honor_timestamps: true
-#            static_configs:
-#              - targets:
-#                  - "opnsense:9100"
-#                  - "expanse:9100"
-#                  - "valetudo:9100"
-#                  - "pikvm:9100"

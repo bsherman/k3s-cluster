@@ -4,27 +4,23 @@ kind: PersistentVolumeClaim
 metadata:
   name: valheim-config
   namespace: games
-  labels:
-    recurring-job-group.longhorn.io/default=enabled
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
-  storageClassName: longhorn
+  storageClassName: ceph-block
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: valheim-backups
   namespace: games
-  labels:
-    recurring-job-group.longhorn.io/backups=enabled
 spec:
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
-  storageClassName: longhorn
+  storageClassName: ceph-block

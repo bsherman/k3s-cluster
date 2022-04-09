@@ -27,6 +27,9 @@ spec:
   values:
     monitoring:
       enabled: true
+    toolbox:
+      enabled: true
+      image: rook/ceph:v1.8.8
     ingress:
       dashboard:
         ingressClassName: "traefik"

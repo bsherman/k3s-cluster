@@ -41,11 +41,4 @@ spec:
     persistence:
       data:
         enabled: true
-        type: custom
-        volumeSpec:
-          iscsi:
-            targetPortal: ${NAS_ADDR}:3260
-            iqn: iqn.2022-04.k8s.iscsi:uptime-kuma
-            lun: 1
-            fsType: ext4
-            readOnly: false
+        existingClaim: uptime-kuma

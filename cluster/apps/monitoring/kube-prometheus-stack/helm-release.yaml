@@ -28,24 +28,24 @@ spec:
       config:
         global:
           resolve_timeout: 5m
-        receivers:
-          - name: "null"
-        route:
-          group_by: ["alertname", "job"]
-          group_wait: 30s
-          group_interval: 5m
-          repeat_interval: 6h
-          receiver: "pushover"
-          routes:
-            - receiver: "null"
-              matchers:
-                - alertname =~ "InfoInhibitor|Watchdog"
-        inhibit_rules:
-          - source_matchers:
-              - severity = "critical"
-            target_matchers:
-              - severity = "warning"
-            equal: ["alertname", "namespace"]
+        # receivers:
+        #   - name: "null"
+        # route:
+        #   group_by: ["alertname", "job"]
+        #   group_wait: 30s
+        #   group_interval: 5m
+        #   repeat_interval: 6h
+        #   receiver: "pushover"
+        #   routes:
+        #     - receiver: "null"
+        #       matchers:
+        #         - alertname =~ "InfoInhibitor|Watchdog"
+        # inhibit_rules:
+        #   - source_matchers:
+        #       - severity = "critical"
+        #     target_matchers:
+        #       - severity = "warning"
+        #     equal: ["alertname", "namespace"]
       ingress:
         enabled: true
         pathType: Prefix
@@ -160,10 +160,10 @@ spec:
           - hosts:
               - *host
             secretName: prometheus-tls
-      thanosService:
-        enabled: true
-      thanosServiceMonitor:
-        enabled: true
+      # thanosService:
+      #   enabled: true
+      # thanosServiceMonitor:
+      #   enabled: true
       prometheusSpec:
         replicas: 1
         replicaExternalLabelName: "replica"
@@ -171,7 +171,7 @@ spec:
         serviceMonitorSelectorNilUsesHelmValues: false
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
-        retention: 6h
+        retention: 72h
         enableAdminAPI: true
         walCompression: true
         storageSpec:
@@ -181,12 +181,12 @@ spec:
               resources:
                 requests:
                   storage: 10Gi
-        thanos:
-          image: quay.io/thanos/thanos:v0.25.2
-          version: v0.22.0
-          objectStorageConfig:
-            name: thanos-objstore
-            key: objstore.yml
+        # thanos:
+        #   image: quay.io/thanos/thanos:v0.25.2
+        #   version: v0.22.0
+        #   objectStorageConfig:
+        #     name: thanos-objstore
+        #     key: objstore.yml
         additionalScrapeConfigs:
           - job_name: minio
             honor_timestamps: true

@@ -5,5 +5,5 @@ resources:
   - grafana
   - kube-prometheus-stack
   - node-problem-detector
-  - thanos
+  #- thanos
   - unifi-poller

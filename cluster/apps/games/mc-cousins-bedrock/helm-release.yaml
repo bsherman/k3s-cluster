@@ -54,7 +54,7 @@ spec:
     persistence:
       dataDir:
         enabled: true
-        existingClaim: mc-cousins-iscsi
+        existingClaim: mc-cousins-minecraft-bedrock
     resources:
       requests:
         memory: 512Mi

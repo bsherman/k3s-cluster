@@ -54,10 +54,10 @@ spec:
           cert-manager.io/cluster-issuer: "letsencrypt-production"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         hosts:
-          - &host "alert-manager.${SECRET_DOMAIN}"
+          - &hostam "alert-manager.${SECRET_DOMAIN}"
         tls:
           - hosts:
-              - *host
+              - *hostam
             secretName: alert-manager-tls
       alertmanagerSpec:
         storage:
@@ -155,10 +155,10 @@ spec:
           cert-manager.io/cluster-issuer: "letsencrypt-production"
           traefik.ingress.kubernetes.io/router.entrypoints: "websecure"
         hosts:
-          - &host "prometheus.${SECRET_DOMAIN}"
+          - &hostp "prometheus.${SECRET_DOMAIN}"
         tls:
           - hosts:
-              - *host
+              - *hostp
             secretName: prometheus-tls
       # thanosService:
       #   enabled: true

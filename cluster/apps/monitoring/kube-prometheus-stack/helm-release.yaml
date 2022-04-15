@@ -196,3 +196,8 @@ spec:
             static_configs:
               - targets:
                   - "minio.${SECRET_DOMAIN}:443"
+          - job_name: node-exporter
+            honor_timestamps: true
+            static_configs:
+              - targets:
+                  - "opnsense.${SECRET_DOMAIN}:9100"

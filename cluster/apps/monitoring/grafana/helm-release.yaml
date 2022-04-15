@@ -92,6 +92,11 @@ spec:
           gnetId: 13502
           revision: 10
           datasource: Prometheus
+        # Ref: https://grafana.com/grafana/dashboards/9291
+        opnsense:
+          gnetId: 9291
+          revision: 1
+          datasource: Prometheus
         # Ref: https://grafana.com/grafana/dashboards/11315
         unifi-client-insights:
           gnetId: 11315

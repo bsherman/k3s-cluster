@@ -16,9 +16,6 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    image:
-      repository: ghcr.io/k8s-at-home/plex
-      tag: v1.25.6.5577-c8bd13540
     env:
       TZ: "${TIMEZONE}"
       ADVERTISE_IP: "http://${SVC_PLEX_ADDR}:32400/"

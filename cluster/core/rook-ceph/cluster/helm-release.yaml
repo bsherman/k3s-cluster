@@ -17,10 +17,10 @@ spec:
   install:
     createNamespace: true
     remediation:
-      retries: 3
+      retries: 5
   upgrade:
     remediation:
-      retries: 3
+      retries: 5
   dependsOn:
     - name: rook-ceph
       namespace: rook-ceph
@@ -29,7 +29,6 @@ spec:
       enabled: true
     toolbox:
       enabled: true
-      image: rook/ceph:v1.8.8
     ingress:
       dashboard:
         ingressClassName: "traefik"

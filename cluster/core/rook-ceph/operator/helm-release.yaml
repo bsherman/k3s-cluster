@@ -29,15 +29,5 @@ spec:
   values:
     crds:
       enabled: true
-    csi:
-      enableCephfsDriver: false
-      enableCephfsSnapshotter: false
     monitoring:
       enabled: true
-    resources:
-      requests:
-        cpu: 100m
-        memory: 128Mi
-      limits:
-        cpu: 1000m
-        memory: 256Mi

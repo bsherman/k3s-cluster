@@ -9,7 +9,7 @@ resources:
   - navidrome
   - plex
   - radarr
-  - samba
+  #- samba
   - sabnzbd
   - sonarr
   - tautulli
